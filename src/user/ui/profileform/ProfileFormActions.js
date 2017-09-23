@@ -11,7 +11,7 @@ function userUpdated(user) {
   }
 }
 
-export function updateUser(name) {
+export function updateUser(name, description) {
   let web3 = store.getState().web3.web3Instance
 
   // Double-check web3's status.

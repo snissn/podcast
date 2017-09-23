@@ -5,10 +5,14 @@ class SignUpForm extends Component {
     super(props)
 
     this.state = {
-      name: ''
+      name: '',
+      description: ''
     }
   }
 
+  onDescriptionChange(event) {
+    this.setState({ description: event.target.value })
+  }
   onInputChange(event) {
     this.setState({ name: event.target.value })
   }
@@ -21,7 +25,7 @@ class SignUpForm extends Component {
       return alert('Please fill in your name.')
     }
 
-    this.props.onSignUpFormSubmit(this.state.name)
+    this.props.onSignUpFormSubmit(this.state.name, this.state.description)
   }
 
   render() {
@@ -31,6 +35,9 @@ class SignUpForm extends Component {
           <label htmlFor="name">Name</label>
           <input id="name" type="text" value={this.state.name} onChange={this.onInputChange.bind(this)} placeholder="Name" />
           <span className="pure-form-message">This is a required field.</span>
+
+          <br />
+          <textarea id="description" type="text" value={this.state.description} onChange={this.onDescriptionChange.bind(this)} placeholder="Enter a description of your band, including any links or ways to contact you on other platforms." />
 
           <br />
 

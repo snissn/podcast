@@ -30,7 +30,7 @@ export function loginUser() {
       web3.eth.getCoinbase((error, coinbase) => {
         // Log errors, if any.
         if (error) {
-          console.error(error);
+          alert(error);
         }
 
         authentication.deployed().then(function(instance) {
@@ -40,9 +40,10 @@ export function loginUser() {
           authenticationInstance.login({from: coinbase})
           .then(function(result) {
             // If no error, login user.
-            var userName = web3.toUtf8(result)
+            console.log(result);
+            var userName = web3.toUtf8(result[0])
 
-            dispatch(userLoggedIn({"name": userName}))
+            dispatch(userLoggedIn({"name": userName, "description": result[1]}))
 
             // Used a manual redirect here as opposed to a wrapper.
             // This way, once logged in a user can still access the home page.
