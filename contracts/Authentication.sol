@@ -2,28 +2,14 @@ pragma solidity ^0.4.2;
 
 import './zeppelin/lifecycle/Killable.sol';
 
-contract Song{
+contract Episode{
+  //todo include block number of release
 
     string ipfs;
     string name;
-    address artist;
-    function Song(string _ipfs, string _name, address _artist){
+    function Episode(string _ipfs, string _name){
         ipfs = _ipfs;
         name = _name;
-        artist = _artist;
-    }
-}
-
-contract Album{
-
-    Song[]  songs;
-    string public name;
-    address artist;
-    function Album(string _name){
-        name = _name;
-    }
-    function add_song(Song song){
-        songs.push(song);
     }
 }
 
@@ -31,13 +17,29 @@ contract Authentication is Killable {
   struct User {
     bytes32 name;   // short name (up to 32 bytes)
     string description;
-    address[] albums;
-    address[] singles;
+    address[] episodes;
+    uint numEpisodes;
   }
+  event NewEpisodeEvent(bytes32 podcast_name, string description, string song_name, string song_ipfs, address sender);
 
   mapping (address => User) private users;
 
   uint private id; // Stores user id temporarily
+
+  function numEpisodes()returns  (uint){
+    return  users[msg.sender].numEpisodes;
+  }
+  function create_episode(string name, string ipfs)  returns (address){
+      //songs_mapping[msg.sender].push(Episode({ipfs:ipfs, name:name}));
+      address episode = address(new Episode(ipfs,name));
+      users[msg.sender].episodes.push(episode);
+      user.numEpisodes += 1;
+
+      User user = users[msg.sender];
+      NewEpisodeEvent(user.name, user.description, name, ipfs, msg.sender);
+      return episode;
+  }
+
 
   function login() constant returns (bytes32, string) {
     // Check if user exists.
@@ -58,6 +60,10 @@ contract Authentication is Killable {
 
     assert(! (name == 0x0));
     users[msg.sender].description = description;
+    users[msg.sender].numEpisodes = 0;
+
+
+    create_episode("first single", "url");
 
     if (users[msg.sender].name == 0x0)
     {

@@ -36,11 +36,11 @@ export function updateUser(name, description) {
           authenticationInstance = instance
 
           // Attempt to login user.
-          authenticationInstance.update(name, {from: coinbase})
+          authenticationInstance.update(name,description, {from: coinbase})
           .then(function(result) {
             // If no error, update user.
 
-            dispatch(userUpdated({"name": name}))
+            dispatch(userUpdated({"name": name, "description":description}))
 
             return alert('Name updated!')
           })

@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
+import UserHelper from '../../util/UserHelper'
 
 class Dashboard extends Component {
   constructor(props, { authData }) {
     super(props)
+    console.log(this);
+    console.log(authData);
     authData = this.props
   }
 
@@ -12,7 +15,7 @@ class Dashboard extends Component {
         <div className="pure-g">
           <div className="pure-u-1-1">
             <h1>Dashboard</h1>
-            <p><strong>Congratulations {this.props.authData.name}!</strong> {this.props.authData.description} If you're seeing this page, you've logged in with your own smart contract successfully.</p>
+            <p>Your name is: <strong>{this.props.authData.name}!</strong></p><p>Description:</p><p> {this.props.authData.description}</p>
           </div>
         </div>
       </main>

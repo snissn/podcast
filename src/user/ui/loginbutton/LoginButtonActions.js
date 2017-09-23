@@ -40,7 +40,7 @@ export function loginUser() {
           authenticationInstance.login({from: coinbase})
           .then(function(result) {
             // If no error, login user.
-            console.log(result);
+            console.log(result[1]);
             var userName = web3.toUtf8(result[0])
 
             dispatch(userLoggedIn({"name": userName, "description": result[1]}))

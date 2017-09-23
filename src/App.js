@@ -6,6 +6,8 @@ import { HiddenOnlyAuth, VisibleOnlyAuth } from './util/wrappers.js'
 import LoginButtonContainer from './user/ui/loginbutton/LoginButtonContainer'
 import LogoutButtonContainer from './user/ui/logoutbutton/LogoutButtonContainer'
 
+import UserHelper from './util/UserHelper'
+
 // Styles
 import './css/oswald.css'
 import './css/open-sans.css'
@@ -16,6 +18,9 @@ class App extends Component {
   render() {
     const OnlyAuthLinks = VisibleOnlyAuth(() =>
       <span>
+        <li className="pure-menu-item">
+          <Link to="/episodes" className="pure-menu-link">Your Episodes</Link>
+        </li>
         <li className="pure-menu-item">
           <Link to="/dashboard" className="pure-menu-link">Dashboard</Link>
         </li>
