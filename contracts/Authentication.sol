@@ -16,10 +16,7 @@ contract Authentication is Killable {
     // If yes, return user.
     // If no, throw.
 
-    if (users[msg.sender].name == 0x0)
-    {
-        throw;
-    }
+    assert( !(users[msg.sender].name == 0x0));
 
     return (users[msg.sender].name);
   }
@@ -31,10 +28,7 @@ contract Authentication is Killable {
     // If yes, create and return user.
     // If no, throw.
 
-    if (name == 0x0)
-    {
-        throw;
-    }
+    assert(! (name == 0x0));
 
     if (users[msg.sender].name == 0x0)
     {
@@ -48,12 +42,7 @@ contract Authentication is Killable {
 
   function update(bytes32 name) payable returns (bytes32) {
     // Update user name.
-
-    if (name == 0x0)
-    {
-        throw;
-    }
-
+    assert(! (name == 0x0));
     if (users[msg.sender].name != 0x0)
     {
         users[msg.sender].name = name;
@@ -61,6 +50,5 @@ contract Authentication is Killable {
         return (users[msg.sender].name);
     }
 
-    throw;
   }
 }
