@@ -1,6 +1,7 @@
 import AuthenticationContract from '../../../../build/contracts/Authentication.json'
 import { browserHistory } from 'react-router'
 import store from '../../../store'
+import UserHelper from '../../../util/UserHelper'
 
 const contract = require('truffle-contract')
 
@@ -21,7 +22,18 @@ export function loginUser() {
     return function(dispatch) {
       // Using truffle-contract we create the authentication object.
       const authentication = contract(AuthenticationContract)
+
+      var userHelper = new UserHelper(authentication);
       authentication.setProvider(web3.currentProvider)
+      userHelper.getSortedEpisodes(web3).then((sortedEpisodes)=>{
+        alert("HI");
+        console.log(sortedEpisodes)
+        //this.setState({
+          //...this.state, movies : sortedMovies
+        //})
+        //updateBalance()
+      })
+
 
       // Declaring this for later so we can chain functions on Authentication.
       var authenticationInstance
@@ -48,6 +60,9 @@ export function loginUser() {
             // Used a manual redirect here as opposed to a wrapper.
             // This way, once logged in a user can still access the home page.
             var currentLocation = browserHistory.getCurrentLocation()
+            
+
+            //TODO  in here pull in the entire stream history of the user
 
             if ('redirect' in currentLocation.query)
             {

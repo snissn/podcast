@@ -1,23 +1,28 @@
 pragma solidity ^0.4.2;
 
 import './zeppelin/lifecycle/Killable.sol';
-
+/*
 contract Episode{
   //todo include block number of release
 
-    string ipfs;
-    string name;
+    string public ipfs;
+    string public name;
     function Episode(string _ipfs, string _name){
         ipfs = _ipfs;
         name = _name;
     }
 }
+*/
 
 contract Authentication is Killable {
+  struct Episode{
+    string ipfs;
+    string name;
+  }
   struct User {
     bytes32 name;   // short name (up to 32 bytes)
     string description;
-    address[] episodes;
+    Episode[] episodes;
     uint numEpisodes;
   }
   event NewEpisodeEvent(bytes32 podcast_name, string description, string song_name, string song_ipfs, address sender);
@@ -26,18 +31,26 @@ contract Authentication is Killable {
 
   uint private id; // Stores user id temporarily
 
-  function numEpisodes()returns  (uint){
+  function getNumEpisodes() constant returns  (uint){
     return  users[msg.sender].numEpisodes;
   }
-  function create_episode(string name, string ipfs)  returns (address){
+
+  function getUserEpisode(uint index) constant returns  (address ){
+    //return ("hi", "bye");
+    return msg.sender;
+    //Episode episode =   users[msg.sender].episodes[index];
+    //return ( episode.name, episode.ipfs);
+  }
+  function create_episode(string name, string ipfs)  returns (bool){
       //songs_mapping[msg.sender].push(Episode({ipfs:ipfs, name:name}));
-      address episode = address(new Episode(ipfs,name));
+
+      Episode memory episode = Episode(ipfs,name);
       users[msg.sender].episodes.push(episode);
-      user.numEpisodes += 1;
 
       User user = users[msg.sender];
+      user.numEpisodes += 1;
       NewEpisodeEvent(user.name, user.description, name, ipfs, msg.sender);
-      return episode;
+      return true;
   }
 
 
@@ -60,9 +73,7 @@ contract Authentication is Killable {
 
     assert(! (name == 0x0));
     users[msg.sender].description = description;
-    users[msg.sender].numEpisodes = 0;
-
-
+    users[msg.sender].numEpisodes = 1;
     create_episode("first single", "url");
 
     if (users[msg.sender].name == 0x0)
