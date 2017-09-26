@@ -61,6 +61,7 @@ contract Authentication is Killable {
     // If yes, return user.
     // If no, throw.
     assert( !(users[msg.sender].name == 0x0));
+    return ( users[msg.sender].name, users[msg.sender].description);
   }
 
   function signup(bytes32 name, bytes32 description) payable returns (bytes32, bytes32) {
@@ -74,7 +75,6 @@ contract Authentication is Killable {
     users[msg.sender].description = description;
     users[msg.sender].numEpisodes = 0;
     create_episode("first single", "url");
-    //create_episode("first single", "url");
 
     if (users[msg.sender].name == 0x0)
     {

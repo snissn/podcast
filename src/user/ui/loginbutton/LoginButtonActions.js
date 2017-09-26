@@ -26,8 +26,8 @@ export function loginUser() {
       var userHelper = new UserHelper(authentication);
       authentication.setProvider(web3.currentProvider)
       userHelper.getSortedEpisodes(web3).then((sortedEpisodes)=>{
-        alert("HI");
-        console.log(sortedEpisodes)
+        console.log('episodes')
+        console.log(web3.toAscii(sortedEpisodes[0][0]))
         //this.setState({
           //...this.state, movies : sortedMovies
         //})
